@@ -1,0 +1,365 @@
+<html>
+<head>
+<link rel="shortcut icon" href="css/favicon.ico">
+</head>
+<body>
+<?php
+include 'connect.php';
+include 'general.php';
+
+	session_start();	
+	
+	$user = $_SESSION['username'];
+	
+
+		
+	
+	if ($_SESSION['username']) {
+
+	$my_full_name = $my_first_name.".".$my_last_name; 
+	
+?>
+<div class='navbar navbar-inverse navbar-static-top'>
+		<div class='container'>
+		
+			<a href='home.php' class='navbar-brand'><img src='http://giving110percent.files.wordpress.com/2013/04/rutgers.gif' style='height:28px; padding:auto;'>&nbsp;&nbsp;Rutgers Roommate Search</a>
+			
+			<!--<img src='https://www.rutgers.edu/sites/default/themes/ru_core/logo.png' style='height:30px;'> -->
+			
+			<button class='navbar-toggle' data-toggle='collapse' data-target='.navHeaderCollapse'>
+				<span class='icon-bar'></span>
+				<span class='icon-bar'></span>
+				<span class='icon-bar'></span>
+			</button>
+			
+			<div class='collapse navbar-collapse navHeaderCollapse'>
+			
+				<ul class='nav navbar-nav navbar-right'>
+					<li><a href='profile.php?u=<?php echo $my_full_name;?>&e=<?php echo $my_hash;?>&i=<?php echo $my_id;?>'><?php echo $my_first_name." ".$my_last_name?></a></li>
+					<li><a href='#myModal' data-toggle='modal'>Edit Profile</a></li>
+					<li><a href='roommate_list.php'>Roommates</a></li>
+					<li><a href='logout.php'>Logout</a></li>
+					
+				</ul>
+			
+			</div>
+			
+			
+		</div>
+	
+	</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+	<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><br>
+       <h2 class="form-signin-heading" style='color:black;'>Create your profile</h2>
+	   The more you put down, the more likely it is for the perfect roommate to find you.
+	</div>
+	
+      <div class="modal-body">
+	  <form method='post' action='update_profile.php'>
+		<table class='table'>
+	         <tr>
+				<td>Name:</td>
+				<td><input type="text" name='first_name_box' class="form-control" placeholder="*First Name" required autofocus value='<?php echo $my_first_name;?>'></td>
+				<td><input type="text" name='last_name_box' class="form-control" placeholder="*Last Name" required autofocus value='<?php echo $my_last_name;?>'></td>
+				<td><input type="radio" name="gender" value="Male">Male&nbsp&nbsp&nbsp&nbsp&nbsp <input type="radio" name="gender" value="Female">Female</td>
+			 </tr>
+			
+			 <tr>
+				<td>Year:</td>
+				<td><input type="text" id='major_text' name='major_text' class="form-control" placeholder="*Major" required autofocus value='<?php echo $my_major;?>'></td>
+				<td>
+					<select class="form-control" name='class_of_box'>
+						<option value="No" disabled selected>*Class of. . .</option>
+						<option value="2018">2018</option>
+						<option value="2019">2019</option>
+						<option value="2020">2020</option>
+						<option value="2021">2021</option>
+						<option value="2022">2022</option>
+						<option value="2021">2023</option>
+						<option value="2022">2024</option>
+					</select>
+				</td>
+				<td><input type="text" name='avatar_box' class="form-control" placeholder="Avatar URL" required autofocus value='<?php echo $my_avatar;?>'><a href='https://www.youtube.com/watch?v=-Q0LhlKzaog&feature=youtu.be' target='_blank'>How to upload avatar</a></td>
+			 </tr>
+
+			
+			 <tr>
+				<td>Contact:</td>
+				<td><input type="text" name='contact_box' class="form-control" placeholder="*Facebook/Twitter profile URL" value='<?php echo $my_social_site;?>' required autofocus></td>
+				<td><input type="text" name='email_box' class="form-control" placeholder="*Email" required autofocus value='<?php echo $user;?>'></td>
+			 </tr>
+			 
+			
+			<tr>
+				<td>Rutgers:</td>
+				<td>
+					<select class="form-control" name='location_box'>
+						<option value="" disabled selected>*Location</option>
+						<option value="Cadmen">Cadmen</option>
+						<option value="Newark">Newark</option>
+						<option value="New Brunswick">New Brunswick</option>
+					</select>
+				</td>
+				
+				<td>
+					<select class="form-control" name='campus_box'>
+						<option value="" disabled selected>*Campus</option>
+						<option value="Busch">Busch</option>
+						<option value="Livingston">Livingston</option>
+						<option value="College Avenue">College Avenue</option>
+						<option value="Douglass">Douglass</option>
+						<option value="Cook">Cook</option>
+					</select>
+				</td>
+				<td></td>
+			 </tr>
+			 
+			 <tr>
+				<td>Location:</td>
+				<td><input type="text" id='state_text' name='state_text' maxlength='4' class="form-control" placeholder="State (NJ,NY,FL,etc.) OR None" value='<?php echo $my_state;?>' required autofocus></td>
+				<td><input type="text" id='country_text' name='country_text' maxlength='40' class="form-control" placeholder="Country" value='<?php echo $my_country;?>' required autofocus></td>
+				<td></td>
+			 </tr>
+			 
+					<tr>
+						<td>Interest:</td>
+						<td><input type="text" id="interest_text_1" name='interest_text_1' maxlength='20' class='form-control' placeholder='Interest 1' value='<?php echo $my_interest;?>'></td>
+						<td><input type="text" id="interest_text_2" name='interest_text_2' maxlength='20' class='form-control' placeholder='Interest 2' value='<?php echo $my_interest_2;?>' ></td>
+						<td><input type="text" id="interest_text_3" name='interest_text_3' maxlength='20' class='form-control' placeholder='Interest 3' value='<?php echo $my_interest_3;?>' ></td>
+					</tr>
+					
+					<tr>
+						<td></td>
+						<td><input type="text" id='music_text' name='music_text' class="form-control" maxlength='70' placeholder="Music" value='<?php echo $my_music;?>'></td>
+						<td><input type="text" id='show_text' name='show_text' class="form-control" maxlength='70' placeholder="TV Shows" value='<?php echo $my_tv_show;?>'></td>
+						<td><input type="text" id='sport_text' name='sport_text' class="form-control" maxlength='70' placeholder="Sports" value='<?php echo $my_sport;?>'></td>
+						
+					</tr>
+					
+					<tr>
+						<td></td>
+						<td><input type="text" id='movie_text' name='movie_text' maxlength='70' class="form-control" placeholder="Movies" value='<?php echo $my_movie;?>'></td>
+						<td><input type="text" id="game_text" name='game_text' maxlength='70' class="form-control" placeholder="Games" value='<?php echo $my_game;?>'></td>
+						<td></td>
+					</tr>
+					
+					
+					<tr>
+						<td>Application:</td>
+						<td>
+						<select class="form-control" name='loud_box'>
+							<option value="" disabled selected>*Sound Levels</option>
+							<option value="Noise">Like Noise</option>
+							<option value="Flexable">Flexable</option>
+							<option value="Quiet">Quiet</option>
+						</select>		
+						</td>
+						<td>
+							<select class="form-control" name='tidy_box'>
+								<option value="" disabled selected>*Cleanliness</option>
+								<option value="Messy">Messy</option>
+								<option value="Casual">Casual</option>
+								<option value="Clean">I am clean and tidy</option>
+							</select>	
+						</td>
+						<td>
+						<select class="form-control" name='activity'>
+							<option value="" disabled selected>*You often</option>
+							<option value="clubs and sports">spend time at clubs/sports</option>
+							<option value="stay in dorm">stay in his/her dorm</option>
+							<option value="partying">go partying</option>
+							<option value="outside of campus">spend time outside of campus</option>
+							<option value="studying">studies</option>
+							<option value="make/build things">building/making awesome stuff</option>
+						</select>		
+						</td>
+
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+						<select class="form-control" name='hours'>
+							<option value="" disabled selected>*Personal Hours</option>
+							<option value="Early">Early to Bed</option>
+							<option value="Flexable">Flexable</option>
+							<option value="Late">Nightowl</option>
+						</select>	
+						
+						</td>
+						<td>
+						<select class="form-control" name='smoke'>
+							<option value="" disabled selected>*You smoke?</option>
+							<option value="Smoker">Smoker</option>
+							<option value="Non-Smoker">Non-Smoker</option>
+						</select>
+						</td>
+						<td>
+						<select class="form-control" name='weekend'>
+							<option value="" disabled selected>*Weekend</option>
+							<option value="Always">Always here</option>
+							<option value="Usually">Usually here</option>
+							<option value="Sometimes">Sometimes here</option>
+							<option value="Never">Never here</option>
+						</select>
+						</td>
+					
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+						<select class="form-control" name='dorm_invite'>
+							<option value="" disabled selected>*Dorming Invite</option>
+							<option value="">Don't Search</option>
+							<option value="Often">Often invites friends to dorming room</option>
+							<option value="Sometimes">Sometime invites friends to dorming room</option>
+							<option value="Rarely">Rarely invites friends to dorming room</option>
+							<option value="Never">Never invites friends to dorming room</option>
+						</select>
+						</td>
+					
+					</tr>
+					
+			</table>
+			
+			
+			
+			</table>
+			
+			<br><br>
+		Your Biography / Profile:<br>
+		<textarea class="form-control" name='bio_box' rows="6" placeholder="You can paste your profile that you posted on the Rutgers FB page or you can type one from scratch. This will be viewed on your profile wall (Optional)"><?php echo $my_profile;?></textarea>
+		
+		<br><br>
+		Your future at Rutgers:<br>
+		<textarea class="form-control" name='future_box' rows="6" placeholder="Type here on what you plan on doing at Rutgers. What do you see yourself doing frequently for the next four years at Rutgers? (Optional)"><?php echo $my_future;?></textarea>
+		<br><br>
+
+		<input class="btn btn-lg btn-primary btn-block" type="submit" name='submit' value='Save Changes'>
+		
+		</form>
+		
+		<br>
+			
+      </div>
+	  <table class='table'>
+			 <form action='password_change.php' method='post'>
+			 <tr>
+				<td>Password:</td>
+					<td><input type="password" name='old_password_box' class="form-control" placeholder="Old Password"></td>
+					<td><input type="password" name='password_box' class="form-control" placeholder="Password"></td>
+					<td><input type="password" name='re_password_box' class="form-control" placeholder="Retype Password"></td>					
+			 </tr>
+			 <tr>
+				<td></td>
+				<td>
+				<input class="btn btn-sm btn-primary" type="submit" name='submit' value='Change Password'>
+				</td>
+			 
+			 </tr>
+			 
+			 </form>
+			 </table><br>
+	  
+      <div class="modal-footer">
+        
+      </div>
+	  </div>
+    </div>
+  </div>
+<?php 
+
+	} else {
+
+?>
+	
+	<div class='navbar navbar-inverse navbar-static-top'>
+		<div class='container'>
+		
+			<a href='index.htm' class='navbar-brand'><img src='img/rutgers_r.png' style='height:25px; padding:auto;'>&nbsp;&nbsp;Rutgers Roommate Search</a>
+			
+			<!--<img src='https://www.rutgers.edu/sites/default/themes/ru_core/logo.png' style='height:30px;'> -->
+			
+			<button class='navbar-toggle' data-toggle='collapse' data-target='.navHeaderCollapse'>
+				<span class='icon-bar'></span>
+				<span class='icon-bar'></span>
+				<span class='icon-bar'></span>
+			</button>
+			
+			<div class='collapse navbar-collapse navHeaderCollapse'>
+			
+				<ul class='nav navbar-nav navbar-right'>
+					<li><a href='https://www.facebook.com/groups/584067344993889/654167397983883/?notif_t=like' target='_blank'>Facebook</a></li>
+					<li><a href='#myModal' data-toggle='modal'>Login</a></li>
+				</ul>
+			
+			</div>
+			
+			
+		</div>
+	
+	</div>
+	
+	
+    
+	
+	
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+	
+      <div class="modal-body">
+	  
+	         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><br>
+       <h2 class="form-signin-heading" style='color:black;'>Please sign in</h2>
+	   
+	   <form action='loginto.php' method='post'>
+	   
+			<input type="text" class="form-control" placeholder="Email Address" required autofocus name='username'><br>
+			<input type="password" class="form-control" placeholder="Password" required name='password'>
+			<br>
+
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <a href='register.php' style='color:blue'>Don't have an account? Register here</a>
+      </div>
+    </div>
+  </div>
+
+
+        </div>
+
+      
+
+    
+	
+	
+	
+<?php	
+	}
+?>
+
+
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="jquery/js/jquery-1.4.2.min.js"></script> 
+	<script type="text/javascript" src="jquery/js/jquery-ui-1.8.2.custom.min.js"></script> 
+
+
+
+
+  
+</body>
+
+
+
+</html>
